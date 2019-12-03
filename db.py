@@ -1,3 +1,4 @@
+import os
 import json
 import requests
 
@@ -30,3 +31,7 @@ def load_champion_table(*, version: str='9.23.1', language: str='ko_KR') -> dict
         champions = requests.get(ENTRYPOINT).json()['data']
         champions = {int(champion['key']): champion for champion in champions.values()}
     return champions
+
+
+def get_timeline_ids_from_diskstore(path: str) -> list:
+    return list(map(lambda x: int(x[15:]), filter(lambda x: x.startswith('TimelineDto.KR'), os.listdir('./store'))))
